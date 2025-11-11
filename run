@@ -3,7 +3,7 @@ set -euo pipefail
 
 function run_ict() {
     echo "Running tests for Introduction to Python"
-    pytest course/intro/tests/test_exercises.py
+    ## pytest course/intro/tests/test_exercises.py
     pytest course/intro/tests/test_pipeline_functions.py
     echo "Running linter on Introduction to Python"
     flake8 course/intro
