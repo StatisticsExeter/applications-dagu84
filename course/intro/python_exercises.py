@@ -15,25 +15,25 @@ def max_value(numbers):
 def reverse_string(s):
     """Given a string 'string'
     return the reversed version of the input string."""
-    output
-    return 0
+    output = s[::-1]
+    return output
 
 
 def filter_even(numbers):
     """Given a list of numbers 'numbers'
     return a list containing only the even numbers from the input list."""
     output = []
-    for i in number:
+    for i in numbers:
       if i % 2 == 0:
         output.append(i)
-      else: None
+      else: output
     return output
 
 
 def get_fifth_row(df):
     """Given a dataframe 'df'
     return the fifth row of this as a pandas DataFrame."""
-    output = df.iloc[5]
+    output = df.iloc[[4]] # my assumption is it starts at 0 so the 5th row would be 4
     return output
 
 
@@ -47,7 +47,10 @@ def column_mean(df, column):
 def lookup_key(d, key):
     """Given a dictionary 'd' and a key 'key'
     return the value associated with the key in the dictionary."""
-    output = d[key]
+    # there is a key error so I will try lowering all values to lower case
+    case_key = key.lower()
+    case_d = {key.lower(): value for key, value in d.items()}
+    output = case_d[case_key]
     return output
 
 
@@ -70,5 +73,5 @@ def drop_missing(df):
 def value_counts_df(df, column):
     """Given a dataframe 'df' with various columns and the name of one of those columns 'column',
     return a DataFrame with value counts of the specified column."""
-    output = df[column].value_counts()
+    output = df[column].value_counts().reset_index()
     return output

@@ -33,7 +33,7 @@ def scatterplot_groups(df, xvar, yvar, groups):
     return a scatterplot plot as a plotly express object
     of the x variable against the y variable that has
     markers colours for different levels of the grouping variable."""
-    chart = px.scatter(x=df[xvar], y=df[yvar], color=groups)
+    chart = px.scatter(df, x=xvar, y=yvar, color=groups)
     return chart
 
 
@@ -57,7 +57,10 @@ def bar_chart_means(df, cat_var, continuous_var, labels):
     return a bar chart as a plotly express object
     which summarises the mean of the continuous variable by different levels
     of cat_var and labels the axes using the labels dict."""
-    chart = px.bar(df, x=cat_var, y=continuous_var, labels=labels)
+    df_2 = df.groupby(cat_var)[continuous_var].mean().reset_index()
+    title = f"Average {continuous_var} of {cat_var}"
+    chart = px.bar(df_2, x=cat_var, y=continuous_var, labels=labels,
+    title = title)
     return chart
 
 
