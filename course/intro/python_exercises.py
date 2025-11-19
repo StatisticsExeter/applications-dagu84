@@ -34,6 +34,7 @@ def get_fifth_row(df):
     """Given a dataframe 'df'
     return the fifth row of this as a pandas DataFrame."""
     output = df.iloc[[4]] # my assumption is it starts at 0 so the 5th row would be 4
+    # still not passing test unsure why
     return output
 
 
@@ -51,6 +52,7 @@ def lookup_key(d, key):
     case_key = key.lower()
     case_d = {key.lower(): value for key, value in d.items()}
     output = case_d[case_key]
+    # still not passing second test, unsure why
     return output
 
 
