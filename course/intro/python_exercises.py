@@ -47,21 +47,24 @@ def column_mean(df, column):
 def lookup_key(d, key):
     """Given a dictionary 'd' and a key 'key'
     return the value associated with the key in the dictionary."""
-    return 0
+    output = d[key]
+    return output
 
 
 def count_occurrences(lst):
     """Given a list 'lst'
     return a dictionary with counts of each unique element in the list."""
-    
-    return 0
+    output = {}
+    for i in lst:
+      output[i] = lst.count(i)
+    return output
 
 
 def drop_missing(df):
     """Given a dataframe 'df' with some rows containing missing values,
     return a DataFrame with rows containing missing values removed."""
-    df_new = df.dropna()
-    return df_new
+    output = df.dropna()
+    return output
 
 
 def value_counts_df(df, column):
