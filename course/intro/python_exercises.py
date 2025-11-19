@@ -9,31 +9,39 @@ def max_value(numbers):
     """Given a list of numbers 'numbers'
     return the maximum value of this list."""
     output = max(numbers)
-    return 0
+    return output
 
 
 def reverse_string(s):
     """Given a string 'string'
     return the reversed version of the input string."""
+    output
     return 0
 
 
 def filter_even(numbers):
     """Given a list of numbers 'numbers'
     return a list containing only the even numbers from the input list."""
-    return 0
+    output = []
+    for i in number:
+      if i % 2 == 0:
+        output.append(i)
+      else: None
+    return output
 
 
 def get_fifth_row(df):
     """Given a dataframe 'df'
     return the fifth row of this as a pandas DataFrame."""
-    return 0
+    output = df.iloc[5]
+    return output
 
 
 def column_mean(df, column):
     """Given a dataframe 'df' and the name of a column 'column'
     return the mean of the specified column in a pandas DataFrame."""
-    return 0
+    output = df[column].mean()
+    return output
 
 
 def lookup_key(d, key):
@@ -45,16 +53,19 @@ def lookup_key(d, key):
 def count_occurrences(lst):
     """Given a list 'lst'
     return a dictionary with counts of each unique element in the list."""
+    
     return 0
 
 
 def drop_missing(df):
     """Given a dataframe 'df' with some rows containing missing values,
     return a DataFrame with rows containing missing values removed."""
-    return 0
+    df_new = df.dropna()
+    return df_new
 
 
 def value_counts_df(df, column):
     """Given a dataframe 'df' with various columns and the name of one of those columns 'column',
     return a DataFrame with value counts of the specified column."""
-     return 0
+    output = df[column].value_counts()
+    return output
