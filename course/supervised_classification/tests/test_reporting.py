@@ -24,6 +24,7 @@ def test_metric_report_creates_csv(tmp_path):
 
     # Check contents
     report_df = pd.read_csv(report_path, index_col=0)
+    print(report_df)
     assert 'precision' in report_df.columns
     assert 'recall' in report_df.columns
     assert 'f1-score' in report_df.columns
