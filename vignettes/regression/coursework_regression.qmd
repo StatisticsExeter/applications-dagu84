@@ -5,10 +5,7 @@ format:
   html:
     embed-resources: true
     math: mathjax
-
 ---
-
-
 
 ## Your task
 
@@ -18,42 +15,34 @@ This material is provided as context to the problem. You should rewrite it as yo
 
 Data on [Energy Certificates](https://epc.opendatacommunities.org/) were downloaded in March 2025. These certificates are a non-random sample of UK housing, and contain information such as:
 
-- Property energy efficiency: The core data is the energy efficiency rating, which ranges from A (most efficient) to G (least efficient).
-- CO2 emissions: The data includes information on the building's likely carbon dioxide emissions.
-- Energy costs: Potential costs for heating and lighting the property are provided.
-- Improvement recommendations: Each EPC lists cost-effective ways to improve the building's energy performance.
+-   Property energy efficiency: The core data is the energy efficiency rating, which ranges from A (most efficient) to G (least efficient).
+-   CO2 emissions: The data includes information on the building's likely carbon dioxide emissions.
+-   Energy costs: Potential costs for heating and lighting the property are provided.
+-   Improvement recommendations: Each EPC lists cost-effective ways to improve the building's energy performance.
 
-We have been asked by a local company to determine whether some local authorities are better than others in terms of reducing the carbon footprint of properties in their area.  However, some authorities have older housing stock which is innately has a larger carbon footprint. Likewise, some have larger properties than others.  The initial brief is to carry out an aggregate data analysis where the unit of analysis is a local authority.  We have been asked to consider the average carbon footprint of a house in a given area conditional on being pre- or post-1930 and having between 1 and 10 heated rooms.  This should let you fit a model which has fixed effects for the number of houses of pre-1930, post-1930 and 1, 2, 3, ..., 10 heated rooms
-
+We have been asked by a local company to determine whether some local authorities are better than others in terms of reducing the carbon footprint of properties in their area. However, some authorities have older housing stock which is innately has a larger carbon footprint. Likewise, some have larger properties than others. The initial brief is to carry out an aggregate data analysis where the unit of analysis is a local authority. We have been asked to consider the average carbon footprint of a house in a given area conditional on being pre- or post-1930 and having between 1 and 10 heated rooms. This should let you fit a model which has fixed effects for the number of houses of pre-1930, post-1930 and 1, 2, 3, ..., 10 heated rooms
 
 $$Y_{ji} = \beta_0 + \beta_1 x_{j}^{(\text{old})} + \sum_{r=1}^{10} \beta_r x_{j}^{(r)} + \gamma_j$$
 
-Where 
+Where
 
-- $Y_{ji}$ is the average carbon dioxide emissions for authority $j$ for each house type $i$ (old/new, 1, 2, ..., 10 rooms)
-- $x_{j}^{(old)}$ is the number of houses that are older than 1930 in authority $j$
-- $x_{j}^r$ are the number of houses with $r=1, 2, ..., 10$ rooms in authority $j$ 
-- $\beta_0$, $\beta_1$, $\beta_r$ are the fixed effects
-- $\gamma_j$ is the random effect for local authority $j$
-
-
-
+-   $Y_{ji}$ is the average carbon dioxide emissions for authority $j$ for each house type $i$ (old/new, 1, 2, ..., 10 rooms)
+-   $x_{j}^{(old)}$ is the number of houses that are older than 1930 in authority $j$
+-   $x_{j}^r$ are the number of houses with $r=1, 2, ..., 10$ rooms in authority $j$
+-   $\beta_0$, $\beta_1$, $\beta_r$ are the fixed effects
+-   $\gamma_j$ is the random effect for local authority $j$
 
 ## The Data
 
 Some initial exploratory data analysis shows us how the carbon emissions vary by age of property and by the number of rooms:
 
-
-
 ![](../../data_cache/vignettes/regression/boxplot_age.html){width="100%" height="600px"}
 
 ![](../../data_cache/vignettes/regression/boxplot_rooms.html){width="100%" height="600px"}
 
-
 ## The model
 
 A model can be fitted and a summary of the fixed effects produced
-
 
 ```{python}
 #| echo: false
@@ -64,31 +53,28 @@ with open('../../data_cache/vignettes/regression/model_fit.txt') as f:
     print(content)
 ```
 
-
 ## The key insight
 
-We've been asked to rate local authority performance, so the most important result is a ``caterpillar plot'' of the random effects.
-
+We've been asked to rate local authority performance, so the most important result is a \`\`caterpillar plot'' of the random effects.
 
 ![](../../data_cache/vignettes/regression/caterpillar.html){width="100%" height="600px"}
 
-##  Additional credit
+## Additional credit
 
 For additional credit you might like to enhance the exploratory data analysis. You could consider residual diagnostics to check the validity of the model fit. You may also like to consider the appropriateness of the adjusting variables age and number of rooms. You could consider extracting further variables from the database and fitting a slightly more elaborate model.
-
 
 ## Record of AI use for MTHM503 Regression coursework
 
 Instructions: You can use this document to record when, how and why you used GenAI to complete your assessment. It will help you create a record of AI use to submit alongside your references for AI-integrated and AI-assisted assignments. It may also be useful to help you discuss your AI use if you are required to do so in an academic conduct meeting.
 
-| **Date**       | **AI tool used** | **Purpose**                                | **Prompt**                                 | **Hyperlink to output (where possible)** | **Section of work used for** |
-|----------------|------------------|--------------------------------------------|--------------------------------------------|------------------------------------------|-------------------------------|
-| E.g. 15/07/2025| MS Copilot       | To help create an organised essay structure| ‘Generate ideas for structuring an essay on...’ | [insert link]                          | introduction                  |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
+| **Date** | **AI tool used** | **Purpose** | **Prompt** | **Hyperlink to output (where possible)** | **Section of work used for** |
+|----|----|----|----|----|----|
+| E.g. 15/07/2025 | MS Copilot | To help create an organised essay structure | ‘Generate ideas for structuring an essay on...’ | \[insert link\] | introduction |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
