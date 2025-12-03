@@ -37,14 +37,14 @@ def hierarchical_groups(height):
 def _fit_dendrogram(df):
     """Given a dataframe containing only suitable values
     Return a scipy.cluster.hierarchy hierarchical clustering solution to these data"""
-    cluster = fcluster(df)
-    return cluster
+    output = linkage(df, method='single', metric='euclidean')
+    return output
 
 
 def _plot_dendrogram(df):
     """Given a dataframe df containing only suitable variables
     Use plotly.figure_factory to plot a dendrogram of these data"""
-    output = ff.create_dendrogram(df.values)
+    output = ff.create_dendrogram(df)
     output.update_layout(title='Interactive Hierarchical Clustering Dendrogram')
     return output
 
