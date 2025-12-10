@@ -9,13 +9,12 @@ run_number = os.environ.get("GITHUB_RUN_NUMBER", "unknown")
 workflow_name = os.environ.get("GITHUB_WORKFLOW", "unknown")
 commit_sha = os.environ.get("GITHUB_SHA", "unknown")
 
-
-
 source_file = "course/intro/python_exercises.py"
 test_intro_output = "intro_tests_output.txt"
 test_all_output = "all_tests_output.txt"
 linter_output = "flake8_output.txt"
 doit_output = "doit_output.txt"
+
 
 def compute_checksum(filepath):
     sha256 = hashlib.sha256()
@@ -24,11 +23,13 @@ def compute_checksum(filepath):
             sha256.update(chunk)
     return sha256.hexdigest()
 
+
 def read_file(filepath):
     if os.path.exists(filepath):
         with open(filepath, 'r') as f:
             return f.read()
     return f"File not found: {filepath}\n"
+
 
 checksum = compute_checksum(source_file)
 date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -78,4 +79,3 @@ for i in range(0, len(lines), lines_per_page):
 
 doc.save("ci_report.pdf")
 doc.close()
-

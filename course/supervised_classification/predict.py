@@ -11,7 +11,7 @@ def predict(model_path, X_test_path, y_pred_path, y_pred_prob_path):
     y_pred_series = pd.Series(y_pred, name='predicted_built_age')
     y_pred_series.to_csv(y_pred_path, index=False)
     """Form an object y_pred_prob containing a list of your classifer probabilities"""
-    y_pred_prob = model.predict_proba(X_test)[:,1]
+    y_pred_prob = model.predict_proba(X_test)[:, 1]
     y_pred_prob_series = pd.Series(y_pred_prob, name='predicted_built_age')
     y_pred_prob_series.to_csv(y_pred_prob_path, index=False)
 

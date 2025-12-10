@@ -4,7 +4,6 @@ author: "Anonymous"
 format: 
   html:
     embed-resources: true
-
 ---
 
 ## Your task
@@ -15,24 +14,21 @@ This material is provided as context to the problem. You should rewrite it as yo
 
 Data on [Energy Certificates](https://epc.opendatacommunities.org/) were downloaded in March 2025. These certificates are a non-random sample of UK housing, and contain information such as:
 
-- Property energy efficiency: The core data is the energy efficiency rating, which ranges from A (most efficient) to G (least efficient).
-- CO2 emissions: The data includes information on the building's likely carbon dioxide emissions.
-- Energy costs: Potential costs for heating and lighting the property are provided.
-- Improvement recommendations: Each EPC lists cost-effective ways to improve the building's energy performance.
+-   Property energy efficiency: The core data is the energy efficiency rating, which ranges from A (most efficient) to G (least efficient).
+-   CO2 emissions: The data includes information on the building's likely carbon dioxide emissions.
+-   Energy costs: Potential costs for heating and lighting the property are provided.
+-   Improvement recommendations: Each EPC lists cost-effective ways to improve the building's energy performance.
 
 In all, there are 93 variables available on a wide range of metrics. The full dataset is in the course database server at `10.121.4.250` in `energy.energy_certificates`
 
 The data have been used for various published supervised classification exercises:
 
-- ONS data science campus EPC data to predict energy efficiency ratings across Welsh properties. They applied models like XGBoost and found that features such as floor area, number of habitable rooms, and extension count were most predictive <https://datasciencecampus.ons.gov.uk/projects/using-machine-learning-to-predict-energy-efficiency/>
-- EPC anomaly detection (improve data quality) <https://www.iaarc.org/publications/fulltext/102_A_Comprehensive_Approach_for_Automated_Anomaly_Detection_and_Enhancement_of_EPC_Datasets_for_Decarbonization.pdf>
-- Identifying priorities for retrofit strategy <https://uwlpress.uwl.ac.uk/newvistas/article/id/299/>
-- EPC prediction <https://github.com/yourunclefrankie/Energy-efficiency-prediction>
+-   ONS data science campus EPC data to predict energy efficiency ratings across Welsh properties. They applied models like XGBoost and found that features such as floor area, number of habitable rooms, and extension count were most predictive <https://datasciencecampus.ons.gov.uk/projects/using-machine-learning-to-predict-energy-efficiency/>
+-   EPC anomaly detection (improve data quality) <https://www.iaarc.org/publications/fulltext/102_A_Comprehensive_Approach_for_Automated_Anomaly_Detection_and_Enhancement_of_EPC_Datasets_for_Decarbonization.pdf>
+-   Identifying priorities for retrofit strategy <https://uwlpress.uwl.ac.uk/newvistas/article/id/299/>
+-   EPC prediction <https://github.com/yourunclefrankie/Energy-efficiency-prediction>
 
-In reducing the carbon footprint of UK housing, it is important to develop a strategy that offers the right solutions to the right properties. It is widely believed that houses build before 1930 require very different approaches to houses built after that period.  In this task, you are required to determine whether it is possible to determine the age of a house based on several recorded energy metrics. These are `current_energy_efficiency`, `environment_impact_current`, `energy_consumption_current`, `co2_emissions_current`, `lighting_cost_current`, `heating_cost_current`, `hot_water_cost_current`.  You have data for all certificates issued in a single local authority area.  This would help the local authority identify the right targets just using metrics rather than requiring a visit to the property to determine its age.
-
-
-
+In reducing the carbon footprint of UK housing, it is important to develop a strategy that offers the right solutions to the right properties. It is widely believed that houses build before 1930 require very different approaches to houses built after that period. In this task, you are required to determine whether it is possible to determine the age of a house based on several recorded energy metrics. These are `current_energy_efficiency`, `environment_impact_current`, `energy_consumption_current`, `co2_emissions_current`, `lighting_cost_current`, `heating_cost_current`, `hot_water_cost_current`. You have data for all certificates issued in a single local authority area. This would help the local authority identify the right targets just using metrics rather than requiring a visit to the property to determine its age.
 
 ## The Data
 
@@ -45,15 +41,12 @@ import pandas as pd
 
 And a clumsy presentation of some group summary statistics:
 
-
 ```{python}
 #| echo: false
 #| results: 'asis'
 df = pd.read_csv('../../data_cache/vignettes/supervised_classification/frequencies.csv')
 print(df.round(3).to_markdown(index=False))
 ```
-
-
 
 ```{python}
 #| echo: false
@@ -64,18 +57,13 @@ print(df.round(3).to_markdown(index=False))
 
 It is always useful to view a scatterplot of the data, marking the two known groups
 
-
 ![](../../data_cache/vignettes/supervised_classification/scatterplot.html){width="100%" height="600px"}
 
-
-
-For more marks, you may wish to extend this EDA section slightly.  We can extract the performance metrics from fitting such models:
-
+For more marks, you may wish to extend this EDA section slightly. We can extract the performance metrics from fitting such models:
 
 ## Fitting LDA and QDA classifiers
 
 The simplest classifiers we could apply are Linear and Quadratic Discriminant analysis.
-
 
 ```{python}
 #| echo: false
@@ -95,37 +83,32 @@ df.rename(columns={"Unnamed: 0": "Category"}, inplace=True)
 print(df.round(3).to_markdown(index=False))
 ```
 
-You should comment on these results. You may wish to add an interpretation of the coefficients of these classifiers.  Or there may be other metrics (confusion matrix) that you think should be presented.
-
+You should comment on these results. You may wish to add an interpretation of the coefficients of these classifiers. Or there may be other metrics (confusion matrix) that you think should be presented.
 
 ## ROC curve (and AUC) for two simple classifiers
 
 We can of course examine the AUC for these classifiers.
 
-
 ![](../../data_cache/vignettes/supervised_classification/roc.html){width="100%" height="600px"}
-
 
 You should comment on the performance of the classifier.
 
-##  Additional credit
+## Additional credit
 
 For additional credit you should consider extended the pipeline and trying out other classifiers.
-
 
 ## Record of AI use for MTHM503 supervised coursework
 
 Instructions: You can use this document to record when, how and why you used GenAI to complete your assessment. It will help you create a record of AI use to submit alongside your references for AI-integrated and AI-assisted assignments. It may also be useful to help you discuss your AI use if you are required to do so in an academic conduct meeting.
 
-| **Date**       | **AI tool used** | **Purpose**                                | **Prompt**                                 | **Hyperlink to output (where possible)** | **Section of work used for** |
-|----------------|------------------|--------------------------------------------|--------------------------------------------|------------------------------------------|-------------------------------|
-| E.g. 15/07/2025| MS Copilot       | To help create an organised essay structure| ‘Generate ideas for structuring an essay on...’ | [insert link]                          | introduction                  |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-|                |                  |                                            |                                            |                                          |                               |
-
+| **Date** | **AI tool used** | **Purpose** | **Prompt** | **Hyperlink to output (where possible)** | **Section of work used for** |
+|------------|------------|------------|------------|------------|------------|
+| E.g. 15/07/2025 | MS Copilot | To help create an organised essay structure | ‘Generate ideas for structuring an essay on...’ | \[insert link\] | introduction |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |
+|  |  |  |  |  |  |

@@ -26,22 +26,22 @@ def task_check_cache_results():
     }
 
 
-def task_crash_summaries():
-    def crash_summaries():
-        with open('sql/la_collision.sql', 'r') as file:
-            QUERY = file.read()
-        df = load_pg_data(QUERY)
-        df.set_index("lad_ons", inplace=True)
-        df[df.columns[1:7]] = df[df.columns[1:7]].astype(float)
-        df[df.columns[0]] = df[df.columns[0]].astype(float)
-        df.iloc[:, 1:7] = df.iloc[:, 1:7].div(df.iloc[:, 0], axis=0)
-        df.to_csv('data_cache/la_collision.csv', index=False)
-    return {
-        'actions': [crash_summaries],
-        'file_dep': ['sql/la_collision.sql'],
-        'targets': ['data_cache/la_collision.csv'],
-        'uptodate': [config_changed({'sql_file': open('sql/la_collision.sql').read()})],
-    }
+# def task_crash_summaries():
+#     def crash_summaries():
+#         with open('sql/la_collision.sql', 'r') as file:
+#             QUERY = file.read()
+#         df = load_pg_data(QUERY)
+#         df.set_index("lad_ons", inplace=True)
+#         df[df.columns[1:7]] = df[df.columns[1:7]].astype(float)
+#         df[df.columns[0]] = df[df.columns[0]].astype(float)
+#         df.iloc[:, 1:7] = df.iloc[:, 1:7].div(df.iloc[:, 0], axis=0)
+#         df.to_csv('data_cache/la_collision.csv', index=False)
+#     return {
+#         'actions': [crash_summaries],
+#         'file_dep': ['sql/la_collision.sql'],
+#         'targets': ['data_cache/la_collision.csv'],
+#         'uptodate': [config_changed({'sql_file': open('sql/la_collision.sql').read()})],
+#     }
 
 
 def task_eda():

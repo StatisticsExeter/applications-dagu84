@@ -55,54 +55,76 @@ Some previous cluster analysis work has been reported at:
 
 ## The Data
 
-The first thing we can do is consider a scatterplot of the data
+The first thing we can do is consider a scatterplot of the data, this plot will help visualise for us what relationships we can observe from the variables present in the dataset
 
 ![](../../data_cache/vignettes/unsupervised_classification/scatterplot.html){width="100%" height="600px"}
 
-We are going to use the proportion of each subtype of collision that was reported, and rescale the variables.
+From this visual we can see that there is a strong negative relationship between number of accidents that occurred in rainy conditions and in dry conditions, this makes sense intuitively as the higher the number of rainy accidents the lower you would expect the dry accident number to be as they cannot occur at the same time. Another interesting note is that we can see a relatively strong relationship between total accidents and urban accidents, depsite this correlation (pearson) being only around 0.4 we can note that this could indicate that urban accidents are one of the strongest and consistent contributors of total accidents.
+
+We are going to use the proportion of each subtype of collision that was reported, and rescale the variables. The reason behind rescaling the variables is that all but total accidents are expressed as a floating points (decimals) while total is expressed as an integer (full numbers). This difference in scale will have a significant impact on clustering algorithms that use distance as a measurement to create clusters in from the data, requiring us to scale them in this case using a standard scaler transforming the distributions within each variable to have a standard deviation of 1 and a mean of 0. 
 
 
 ## Hierarchical clustering
 
+The first task is to perform hierarchical clustering. Hierarchical clustering is a method that allows us to create clusters of similar and potentially related observations. Hierarchical modelling measures the distances between all observations in the data and then it will start clustering observations that are close to each other, close is defined by the method used to link the clusters together. In this analysis the ward method was implemented which checks the increase in in-cluster distance variance increased with each merge of clusters, this is because at the beginning each observation is its own cluster.
 
-The first task is to perform hierarchical clustering.
+In the dendrogram below we see that the y-axis is the increase in in-cluster variance of each cluster merge which we can observe as the vertical lines joining together.
 
-![](../../data_cache/vignettes/unsupervised_classification/dendrogram.html){width="100%" height="600px"}
+![](../../data_cache/vignettes/unsupervised_classification/mydendo2.html){width="100%" height="600px"}
 
+Normally what occurs in practice is that subject matter experts in combination with increases in within cluster variance increases are used to determine appropriate clusters. In this exercise however there is no traffic expert available therefore we will be using the increase in variance to determine the appropriate cut-point for clusters. The reason for a cut-point is if lets to its conclusion the dendorgram will join all clusters together into one cluster.
 
-You need to select a suitable ``cut-point'' and cut the tree at an appropriate height to form a number of clusters.
+Using the dendogram we can observe that the higher the vertical line between cluster merges the wider appart these two clusters are as their unification increases higher up on the y-axis (within-cluster variance). I have personally chosen to use 14 as the cutoff point as the increases in variance jump significantly past this threshold for all clusters.
 
-To aid visualisation of results, you should plot the cluster membership on a scatterplot of the first two principal components.
+While dendrograms are a helpful visual aid they are only feasible in relatively small datasets, even with this relatively small dataset of <400 observations it isn't the most visually digestible. Another way to visualise the clusters is to process the dataset using principle component analysis and then visualise assign the clusters from the hierarchical modelling to the dataset to visulaise.
 
+Principle component analysis is a often used to either reduce the dimensions of a dataset as a result of too many variables to include in an analysis (there is a rule of thumb of around 10x more observations than variables), you want to combat multicollinearity or to reduce the number of variables to visualise. We are implementing PCA for visualisation purposes.
 
-![](../../data_cache/vignettes/unsupervised_classification/kscatter.html){width="100%" height="600px"}
+PCA reduces the dimensionality by computing principle components which are a linear combination of vectors that are represented by the variables to maximise the variance in the data, in effect capturing as much information as possible. These components are then ranked by their importance which is how much of the originial data is explained within the component. In the chart below we can see the explained variance ratio on the y axis and the components ordered on the x axis.
+
+All of the variance is explained by the first component, however for visualisation we do need to have 2 or 3 components to be able to visualise the clusters. As a result of this 2 is the most appropriate
+
+![](../../data_cache/vignettes/unsupervised_classification/screeplot.png){width="100%" height="600px"}
+
+Below we visualise the clusters on a scatter plot with principle component 1 and 2 on the x and y axis respectively. Due to the lack of a traffic expert we have to use the output below to determine if we believe the clusters to be appropriate.
+
+What is clear is that there are a lot of overlaps between all clusters except cluster 1, this makes me believe that there could be a smaller number of clusters that are more appropriate. 
+
+![](../../data_cache/vignettes/unsupervised_classification/hscatter.html){width="100%" height="600px"}
+
+Another method that is often implemented for unsupervised modelling is KMeans.
 
 
 ## kmeans clustering
 
+KMeans is a clustering algorithm that groups observations into a pre determined number of clusters, this is done by randomly picking centroids (determined by cluster numbers) and assigning the observations to the closest centroid, then calculating the SSE (within cluster variance) and trying to minimize it by recomputing centroids until the SSE does not reduce.
 
-The second task is to perform k-means clustering. You should select an appropriate number of clusters.
-First, you should look at the cluster centroids:
+Again KMeans clustering uses distance to measure the within cluster variance, therefore PCA will have to performed again due to the differing scales of the variables.
 
+Since the previous PCA analysis can be re-used we will again be using 2 principle components
 
-![](../../data_cache/vignettes/unsupervised_classification/kcentroids1.html){width="100%" height="600px"}
+![](../../data_cache/vignettes/unsupervised_classification/kelbow.png){width="100%" height="600px"}
 
+As a result of KMeans requiring a pre determined number of clusters to work with the elbow method is often implemented beforehand to get a good understanding of what the appropriate cluster number should be. What we see in the plot above is the eblow method with the blue line showing the distortion score on the left y-axis which is the total sum of squared distances between each data point and its assigned cluster centroid, the green line shows the fit time required for each cluster number on the right y-axis. KMeans is a very computationaly intensive modelling method which is why with larger datasets (unlike ours) it is very important. The elbow is normally shown when there is a sudden change in the gradient of the blue line showing drop off in incremental lower distortion from increased clusters (ours shows a relatively consistent and shallow gradient).
 
-![](../../data_cache/vignettes/unsupervised_classification/kcentroids2.html){width="100%" height="600px"}
+From this plot the recomended number of clusters is 5, which is what we will move forward with as from the Hierarchical cluster we could see that while 6 clusters looked ok they did have a lot of overlapping clusters.
 
-
-As before you should plot the cluster membership on a scatterplot of the first two principal components.
+Again we will visualise this using 2 principle components.
 
 ![](../../data_cache/vignettes/unsupervised_classification/kscatter.html){width="100%" height="600px"}
 
+From the scatter plot we can determine that the overlapping still persists with 5 clusters using KMeans clustering. Determining the quality of the clusters is difficult.
 
+One way of capturing some insights from this data is to conduct an EDA of the clusters and the values within them across the variables.
 
+![](../../data_cache/vignettes/unsupervised_classification/boxplots.png){width="100%" height="600px"}
+
+From this boxplot we can see that there are some significant differences in the characteristics of the clusters with the proportion of dry accidents differing significantly, along with urban, slight and dark.
 
 
 ##  Additional credit
 
 For additional credit you should consider adding a further unsupervised classification method. Alternatively, you could increase the number of variables used in the clustering.
-
 
 
 ## Record of AI use for MTHM503 unsupervised coursework
@@ -112,6 +134,7 @@ Instructions: You can use this document to record when, how and why you used Gen
 | **Date**       | **AI tool used** | **Purpose**                                | **Prompt**                                 | **Hyperlink to output (where possible)** | **Section of work used for** |
 |----------------|------------------|--------------------------------------------|--------------------------------------------|------------------------------------------|-------------------------------|
 | E.g. 15/07/2025| MS Copilot       | To help create an organised essay structure| ‘Generate ideas for structuring an essay on...’ | [insert link]                          | introduction                  |
+10/12/2024, CHATGPT, Subplots for my boxplots, How do I create a 3x4 subplot with boxplots from seaborn library, no link (used desktop app), Unsupervised extra EDA 
 |                |                  |                                            |                                            |                                          |                               |
 |                |                  |                                            |                                            |                                          |                               |
 |                |                  |                                            |                                            |                                          |                               |

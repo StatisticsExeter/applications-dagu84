@@ -8,7 +8,7 @@ VIGNETTE_DIR = Path('data_cache') / 'vignettes' / 'regression'
 
 
 def _fit_model(df):
-    """Given data frame df containing columns 'shortfall', 'n_rooms', 'age' and 
+    """Given data frame df containing columns 'shortfall', 'n_rooms', 'age' and
     'local_authority_code'
     Fit a linear mixed model with shortfall as the response variable
     n_rooms and age as fixed predictors
