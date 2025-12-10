@@ -1,4 +1,5 @@
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
+from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 import joblib
 from course.utils import find_project_root
@@ -31,3 +32,12 @@ def fit_qda():
     passed to fit_classifier and fitted by classifer.fit()"""
     classifier = QuadraticDiscriminantAnalysis()
     fit_classifier(X_train_path, y_train_path, model_path, classifier)
+
+
+def fit_random_forest():
+    base_dir = find_project_root()
+    X_train_path = base_dir / 'data_cache' / 'energy_X_train_raw.csv'
+    y_train_path = base_dir / 'data_cache' / 'energy_y_train_raw.csv'
+    model_path = base_dir / 'data_cache' / 'models' / 'random_forest_model.joblib'
+    model = RandomForestClassifier()
+    fit_classifier(X_train_path, y_train_path, model_path, model)

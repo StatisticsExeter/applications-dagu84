@@ -32,3 +32,12 @@ def pred_qda():
     y_pred_path = base_dir / 'data_cache' / 'models' / 'qda_y_pred.csv'
     y_pred_prob_path = base_dir / 'data_cache' / 'models' / 'qda_y_pred_prob.csv'
     predict(model_path, X_test_path, y_pred_path, y_pred_prob_path)
+
+
+def pred_random_forest():
+    base_dir = find_project_root()
+    model_path = base_dir / 'data_cache' / 'models' / 'random_forest_model.joblib'
+    X_test_path = base_dir / 'data_cache' / 'energy_X_test_raw.csv'
+    y_pred_path = base_dir / 'data_cache' / 'models' / 'rf_y_pred.csv'
+    y_pred_prob_path = base_dir / 'data_cache' / 'models' / 'rf_y_pred_prob.csv'
+    predict(model_path, X_test_path, y_pred_path, y_pred_prob_path)

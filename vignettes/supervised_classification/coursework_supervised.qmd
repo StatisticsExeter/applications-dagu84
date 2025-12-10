@@ -55,11 +55,52 @@ df = pd.read_csv('../../data_cache/vignettes/supervised_classification/grouped_s
 print(df.round(3).to_markdown(index=False))
 ```
 
-It is always useful to view a scatterplot of the data, marking the two known groups
+Below are some summary statistics between the variables in the dataset, with the two groups highlighted by the different colours.
+
+While this isn't the best plot to visualise the data in this case, we are still able to interpret some important insights such as the relationship between current_energy_efficiency and environmental_impact_current. This also makes sense intuitively as houses with higher environmental will be considered to be better environmentally.
 
 ![](../../data_cache/vignettes/supervised_classification/scatterplot.html){width="100%" height="600px"}
 
-For more marks, you may wish to extend this EDA section slightly. We can extract the performance metrics from fitting such models:
+Additional plots were provided from both the matplotlib and seaborn libraries as they are generating on the qmd file, allowing for easy interpretation.
+
+While the plot above tells us about the overall data, I believe that highlighting the differences between the two groups (pre 30s and post 30s) will provide us with more insights.
+
+![](../../data_cache/vignettes/supervised_classification/boxplots.png){width="100%" height="600px"}
+
+From this chart we can see that the main differentiator between the two groups are from environmental impact, energy efficiency and energy consumption. The other variables don't show a significant difference in their central tendencies.
+
+Another plot that could provide us with insights is the violin plot, a boxplot which also visualises the density of the points around the values.
+
+![](../../data_cache/vignettes/supervised_classification/violinplots.png){width="100%" height="600px"}
+From the violin plots we are able to see that the central tendencies of the median are representative of the densities in the data. Again the three main differences in the pre and post 30s houses are in environmental impact, energy efficiency and energy consumption.
+
+## Preprocessing
+
+Before fitting a LDA or QDA classifier it is important to check that the data follows the assumptions of the model to maximise and bring validity to the results we get.
+
+**The key assumptions of LDA are:**
+
+- Multivariate normality, each class's features are assumed to follow normal distribution
+- Equal covariance matrices, all classes share the same covariance structure
+- Independence within observations, the observations within out data are assumed to be independent of each other
+- No perfect multicollinearity, the features within the dataset are assumed to not be perfectly correlated with each other
+- Predictors are measured on a continuous scale, LDA works best when features are continuous variables
+
+To check for normality of each class's features we can plot a histogram to see if they roughly follow a normal distribution.
+
+![](../../data_cache/vignettes/supervised_classification/histplots.png){width="100%" height="600px"}
+
+Energy efficiency, environmental impact and energy consumption seem to roughly follow normal distribution while the others are harder to evaluate. In this case I will be using checking the 4 other features using a QQ plot which will clearly show us if the normality assumption is violated.
+
+![](../../data_cache/vignettes/supervised_classification/qqplots.png){width="100%" height="600px"}
+We can see that energy efficiency and environmental impact are close to being normally distributed while the other features require some transformations.
+
+One method of normalizing the features is to use the Box-Cox transformation which is a statistical technique used to transform non-normal distributed data into more normal.
+
+To check for equal covariance structures we have to wait to diagnose the model after training to determine if this assumption is violated.
+
+The other assumptions seem to hold and are ready to be tested in the model. However the the scale of the features are also important as LDA assumes that features will contribute comparably, meaning that if one or two features have significantly larger scales they will dominate the covariance that is calculated for the LDA. Therefore standard scaling will also be used on the data before feeding into the model.
+
 
 ## Fitting LDA and QDA classifiers
 
@@ -73,6 +114,15 @@ df.rename(columns={"Unnamed: 0": "Category"}, inplace=True)
 print(df.round(3).to_markdown(index=False))
 ```
 
+The LDA model is relatively accurate with an accuracy of 0.745. While this seems relatively high it is important to keep in mind that the dataset is relatively balanced, with the y_test set being made up of an almost 50/50 split of both classes. With a nearly 50/50 split this means that a basic model guessing only one class would be correct 50% of the time, which means that our model is only adding 24.5 percent points better than a basic model. 
+
+The precision of the model is a good indicator of performance as it displays how many correct classifications were made over all classifications (true and false). From the result metrics we can see that the model is performing relatively well at correctly predicting both Pre and Post 30s. 
+
+The recall of the model is a good indicator of performance as it displays how many real cases of the class were found by the model and how many were missed. From the result metrics we can see that the model is significantly better at predicting Pre 30s buildings than Post 30s by over 10 percent points.
+
+Overall this is a good first model with a relatively good accuracy and precision of both classes, however we do see that the model performance is significantly worse at classifying Post 30s buildings. This is an issue as we need to correctly identify Post 30s buildings as they require a different approach.
+
+
 ### Results from fitting a quadratic discriminant analysis
 
 ```{python}
@@ -83,19 +133,38 @@ df.rename(columns={"Unnamed: 0": "Category"}, inplace=True)
 print(df.round(3).to_markdown(index=False))
 ```
 
-You should comment on these results. You may wish to add an interpretation of the coefficients of these classifiers. Or there may be other metrics (confusion matrix) that you think should be presented.
+Quadratic discriminant analysis is another method worth checking as QDA allows us model non-linear class separations, while LDA checks for linear separators.
+
+The results of the QDA model however are significantly worse than our previous LDA model. While the precision for the Pre 30s buildings have improved significantly it has dropped significantly for Post 30s buildings. Overall accuracy has also dropped to nearly 50%, performing as poorly as a base model guessing one class.
+
+While precision was high for Pre 30s buildings it had a very low recall of 0.415, this means that the model is prone to under predicting Pre-30s creating many false negatives but is almost always right when it does. The opposite being true for Post 30s buildings where the model is prone to over predict and gets it mostly wrong.
+
 
 ## ROC curve (and AUC) for two simple classifiers
 
-We can of course examine the AUC for these classifiers.
+Another method of comparing two classifiers is to use the ROC curve.
 
 ![](../../data_cache/vignettes/supervised_classification/roc.html){width="100%" height="600px"}
 
-You should comment on the performance of the classifier.
+Both the LDA and QDA model are performing well overall, with an AUC of 0.83 and 0.81 respectively. Objectively looking at the chart we can see that LDA performs better than QDA, LDA is more consistent at correctly classifying properties. 
 
-## Additional credit
+## Random Forest Classifier
 
-For additional credit you should consider extended the pipeline and trying out other classifiers.
+While the LDA performs well enough it is worth trying another classifier. The Random Forest Classifier is an interesting choice as it does not assume normality in the variables or equal covariance, and it is also known to handle skewed features and model non-linear interactions. 
+
+The data was slightly processed before training the model. Instead of predicting two classes the random forest model tries to predict Pre-30s houses as these require specific alterations.
+
+![](../../data_cache/vignettes/supervised_classification/confusion_matrix.png){width="100%" height="600px"}
+
+The confusion matrix above is a nice and simple way to visualise a binary classifier, it allows us to see how the model has performed overall.
+
+**Random Forest Classifier Metrics**
+
+- Accuracy: 0.77
+- Precision: 0.784
+- Recall: 0.798
+
+The model is a balanced model with high precision and recall, as well as missing fewer positives and false positives than the LDA model. It seems to be an overall stronger and consistent model.
 
 ## Record of AI use for MTHM503 supervised coursework
 
