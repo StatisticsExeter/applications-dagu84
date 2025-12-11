@@ -3,6 +3,9 @@ import plotly.graph_objects as go
 from sklearn.metrics import roc_curve, auc
 from sklearn.preprocessing import LabelEncoder
 from course.utils import find_project_root
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 def _get_roc_results(y_test_path, y_pred_prob_path):
@@ -46,3 +49,30 @@ def _plot_roc_curve(lda_roc, qda_roc):
         height=500
     )
     return fig
+
+
+def pca_check():
+    # get the test set for X
+    base_dir = find_project_root()
+
+    X_test_path = base_dir / 'data_cache' / 'energy_X_test.csv'
+    X_test = pd.read_csv(X_test_path)
+    # perform pca on it
+    pca = PCA(n_components=2)
+    pca_X_test = pca.fit_transform(X_test)
+    # turn it into a dataframe
+    final_df = pd.DataFrame(pca_X_test, columns=['PCA_1', 'PCA_2'], index=X_test.index)
+    # get the classification from the model
+    y_pred_path = base_dir / 'data_cache' / 'models' / 'lda_y_pred.csv'
+    y_pred = pd.read_csv(y_pred_path).squeeze()
+    # input classification/cluster into dataframe
+    final_df['class'] = y_pred
+    final_df = final_df.drop(index=7895)
+    # scatterplot with cluster as hue
+    plt.clf()
+    plt.figure()
+
+    sns.scatterplot(data=final_df, x='PCA_1', y='PCA_2', hue='class')
+    path = base_dir / 'data_cache' / 'vignettes' / 'supervised_classification' / 'pca_plot.png'
+    plt.gcf().savefig(path)
+    return None

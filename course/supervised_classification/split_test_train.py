@@ -47,7 +47,7 @@ def split_data(base_data_path, X_train_path, y_train_path, X_test_path, y_test_p
 
 
 def _preprocess(X_train, X_test):
-    transformer = PowerTransformer()
+    transformer = PowerTransformer(method='yeo-johnson')
     scaler = StandardScaler()
 
     X_train_1 = transformer.fit_transform(X_train)

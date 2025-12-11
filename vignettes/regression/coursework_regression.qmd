@@ -38,9 +38,17 @@ Some initial exploratory data analysis shows us how the carbon emissions vary by
 
 ![](../../data_cache/vignettes/regression/boxplot_age.html){width="100%" height="600px"}
 
+From the boxplots we are able to see that the older homes have a tendency to emit higher levels of CO2 emissions than recent homes. This makes intuitive sense as newer homes will have been built with new energy efficient methods.
+
+This plot is insightful and appropriate as house age is a categorical variable which are visualised well through boxplots when compared to a continuous variable such as shortfall (CO2 emissions).
+
 ![](../../data_cache/vignettes/regression/boxplot_rooms.html){width="100%" height="600px"}
 
+We can see that there is a clear relationship between shortfall and n_rooms with a consistent increase in central tendencies of shortfall, increasing as the number of rooms increase. This is a strong indication that this varaible will have strong predictive power in our model.
+
 ## The model
+
+The hierarchical model is appropriate here as the standard linear regression model assumes that each observation is independent which is not the case, as there are natural hierarchies in the data. The houses within the local authorities will be similar and won't be fully independent, therefore we need to account for this by accounting for the local authority code as a random effect. The use of random effects in the model we are training will allow each authority code to have its own intercept. 
 
 A model can be fitted and a summary of the fixed effects produced
 
@@ -53,15 +61,18 @@ with open('../../data_cache/vignettes/regression/model_fit.txt') as f:
     print(content)
 ```
 
+From the summary statistics above we can see that for the fixed effects, age has a negative effect on shortfall with a negative coefficient telling us that the being in the recent age bracket will increase the shortfall. The number of rooms has a positive effect on shortfall which will increase with the number of rooms in a property. We can also see from the p values that they are significant in impacting shortfall with a p value lower than 0.05 (95 percent confidence), this is supported by the confidence interval values not crossing the 0 threshold. 
+
+The summary statistics shows us that recent properties have significantly lower shortfall than older ones, with a coefficient of -2.98, indicating that a property in the recent age category will reduce the shortfall expected by around 3 units. The number of rooms has a strong postive effect on shortfall, with each additional room increasing shortfall by around 1.05 units. Both predictors are statistically significant with both p-values being below the 0.05 threshold, this is further supported by the confidence intervals not crossing 0.
+
+The random intercept variance of the group variable (local authority) of 0.434 suggests to us that there is a meaningful variation between authorities in shortfall, indicating to us that it is a suitable random effect to model for.
+
 ## The key insight
 
-We've been asked to rate local authority performance, so the most important result is a \`\`caterpillar plot'' of the random effects.
+From the caterpillar plot below we can see further evidence of the variation in local authority shortfall. We can see effects from around -2.8 to 3.2, indicating a meaningful difference in shortfall of local authorities when accounting for the fixed effects (n_rooms and age category).
 
 ![](../../data_cache/vignettes/regression/caterpillar.html){width="100%" height="600px"}
 
-## Additional credit
-
-For additional credit you might like to enhance the exploratory data analysis. You could consider residual diagnostics to check the validity of the model fit. You may also like to consider the appropriateness of the adjusting variables age and number of rooms. You could consider extracting further variables from the database and fitting a slightly more elaborate model.
 
 ## Record of AI use for MTHM503 Regression coursework
 

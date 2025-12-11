@@ -146,7 +146,20 @@ Another method of comparing two classifiers is to use the ROC curve.
 
 ![](../../data_cache/vignettes/supervised_classification/roc.html){width="100%" height="600px"}
 
-Both the LDA and QDA model are performing well overall, with an AUC of 0.83 and 0.81 respectively. Objectively looking at the chart we can see that LDA performs better than QDA, LDA is more consistent at correctly classifying properties. 
+Both the LDA and QDA model are performing well overall, with an AUC of 0.83 and 0.81 respectively. Objectively looking at the chart we can see that LDA performs better than QDA, LDA is more consistent at correctly classifying properties.
+
+
+## Checking for Homoscedasticity
+
+To check the LDA model for homoscedasticity we can use PCA to plot a 2d visualisation of the clusters/classes which we can check for similarity in their spread and shape, this would prove the assumption and give validity to our 
+model.
+
+After visualising the plot, i discovered that there was an outlier/ incorrectly input row of data in the test set (row: 7895) which had -64 for energy consumption, while this might be correct (might have solar panels and sell energy back to the grid) I will be omitting this value in the visualisation below
+
+![](../../data_cache/vignettes/supervised_classification/pca_plot.png){width="100%" height="600px"}
+
+From this plot we are able to make a judgement that the LDA model does follow the assumption of equal covariance matrices with all classes sharing the same/similar covariance structure.
+
 
 ## Random Forest Classifier
 

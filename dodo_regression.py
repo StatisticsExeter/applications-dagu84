@@ -1,7 +1,7 @@
 from pathlib import Path
 from doit.tools import config_changed
 from course.utils import load_pg_data
-from course.regression.eda import boxplot_age, boxplot_rooms
+from course.regression.eda import boxplot_age, boxplot_rooms, boxplot_rva
 from course.regression.fit_model import fit_model
 from course.regression.caterpillar_reffs import plot_caterpillar
 
@@ -42,11 +42,12 @@ def task_energy_metrics_la():
 
 def task_eda():
     return {
-        'actions': [boxplot_age, boxplot_rooms],
+        'actions': [boxplot_age, boxplot_rooms, boxplot_rva],
         'file_dep': ['data_cache/la_energy.csv',
                      'course/regression/eda.py'],
         'targets': ['data_cache/vignettes/boxplot_age.html',
-                    'data_cache/vignettes/boxplot_rooms.html'],
+                    'data_cache/vignettes/boxplot_rooms.html',
+                    'data_cache/vignettes/boxplot_rva.html'],
     }
 
 
