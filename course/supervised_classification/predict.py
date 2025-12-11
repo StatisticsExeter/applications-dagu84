@@ -41,3 +41,8 @@ def pred_random_forest():
     y_pred_path = base_dir / 'data_cache' / 'models' / 'rf_y_pred.csv'
     y_pred_prob_path = base_dir / 'data_cache' / 'models' / 'rf_y_pred_prob.csv'
     predict(model_path, X_test_path, y_pred_path, y_pred_prob_path)
+    model = joblib.load(model_path)
+    X_test = pd.read_csv(X_test_path)
+    features = pd.Series(model.feature_importances_, index=X_test.columns)
+    path = base_dir / 'data_cache' / 'models' / 'features.csv'
+    features.to_csv(path)
