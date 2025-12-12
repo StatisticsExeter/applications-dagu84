@@ -29,14 +29,14 @@ def hierarchical_groups(height):
     scaler = StandardScaler()
     df_scaled = scaler.fit_transform(df)
     linked = _fit_dendrogram(df_scaled)
-    my_dendogram = ff.create_dendrogram(df_scaled, linkagefun=lambda x: linked) # my code
-    my_dendogram.write_html(base_dir / VIGNETTE_DIR / 'mydendo2.html') # my code
+    my_dendogram = ff.create_dendrogram(df_scaled, linkagefun=lambda x: linked)
+    my_dendogram.write_html(base_dir / VIGNETTE_DIR / 'mydendo2.html')
     clusters = _cutree(linked, 14)  # adjust this value based on dendrogram scale
-    number_of_comp(df) # my code
-    df_plot = _pca(df_scaled, 2)
+    number_of_comp(df)
+    df_plot = _pca(df_scaled)
     df_plot['cluster'] = clusters['cluster'].astype(str)  # convert to string for color grouping
     outpath = base_dir / VIGNETTE_DIR / 'hscatter.html'
-    df_plot.to_csv(base_dir / VIGNETTE_DIR / 'hclustered_data.csv', index=False) # my code
+    df_plot.to_csv(base_dir / VIGNETTE_DIR / 'hclustered_data.csv', index=False)
     fig = _scatter_clusters(df_plot)
     fig.write_html(outpath)
 
@@ -65,10 +65,10 @@ def _cutree(tree, height):
     return output
 
 
-def _pca(df, components):
+def _pca(df):
     """Given a dataframe of only suitable variables
     return a dataframe of the first two pca predictions (z values) with columns 'PC1' and 'PC2'"""
-    model = PCA(n_components=components)
+    model = PCA(n_components=2)
     output = model.fit_transform(df)
     new_df = pd.DataFrame(output, columns=['PC1', 'PC2'])
     return new_df
@@ -85,13 +85,10 @@ def _scatter_clusters(df):
 
 
 def number_of_comp(df):
-    # fitting a PCA and then collecting the explained variance of each component
     model = PCA()
     output = model.fit(df)
     components = np.arange(1, len(output.explained_variance_) + 1)
     variance = output.explained_variance_ratio_
-    # visualising the explained variance of each component vs. the ratio (scree plot)
-    # i personally prefer and like seaborn
     sns.scatterplot(x=components, y=variance)
     sns.lineplot(x=components, y=variance)
     base_dir = find_project_root()

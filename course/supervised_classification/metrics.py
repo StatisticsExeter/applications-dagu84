@@ -35,8 +35,13 @@ def confusion_matrix_rf():
     base_dir = find_project_root()
     y_test_path = base_dir / 'data_cache' / 'energy_y_test_raw.csv'
     y_pred_path = base_dir / 'data_cache' / 'models' / 'rf_y_pred.csv'
-    path = base_dir / 'data_cache' / 'vignettes' / 'supervised_classification' / 'confusion_matrix.png'
-
+    path = (
+        base_dir
+        / 'data_cache'
+        / 'vignettes'
+        / 'supervised_classification'
+        / 'confusion_matrix.png'
+    )
     y_test = pd.read_csv(y_test_path).squeeze()
     y_pred = pd.read_csv(y_pred_path).squeeze()
     matrix = confusion_matrix(y_test, y_pred)

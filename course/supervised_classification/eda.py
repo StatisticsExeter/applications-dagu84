@@ -16,21 +16,21 @@ def plot_scatter():
     title = "Energy variables showing different built_age type"
     fig = scatter_onecat(df, 'built_age', title)
     fig.write_html(outpath)
-    boxplots = _boxplots() # my code
-    outpath_box = base_dir / VIGNETTE_DIR / 'boxplots.png' # my code
-    boxplots.savefig(outpath_box) # my code
-    violinplots = _violin_plots() # my code
-    outpath_violin = base_dir / VIGNETTE_DIR / 'violinplots.png' # my code
-    violinplots.savefig(outpath_violin) # my code
-    histplots = _histograms() # my code
-    outpath_box = base_dir / VIGNETTE_DIR / 'histplots.png' # my code
-    histplots.savefig(outpath_box) # my code
-    qqplots_pre = _qqplots(df[df['built_age'] == 'Pre-30s']) # my code
-    outpath_qq_pre = base_dir / VIGNETTE_DIR / 'qqplots_pre.png' # my code
-    qqplots_pre.savefig(outpath_qq_pre) # my code
-    qqplots_post = _qqplots(df[df['built_age'] == 'Post-30s']) # my code
-    outpath_qq_post = base_dir / VIGNETTE_DIR / 'qqplots_post.png' # my code
-    qqplots_post.savefig(outpath_qq_post) # my code
+    boxplots = _boxplots()
+    outpath_box = base_dir / VIGNETTE_DIR / 'boxplots.png'
+    boxplots.savefig(outpath_box)
+    violinplots = _violin_plots()
+    outpath_violin = base_dir / VIGNETTE_DIR / 'violinplots.png'
+    violinplots.savefig(outpath_violin)
+    histplots = _histograms()
+    outpath_box = base_dir / VIGNETTE_DIR / 'histplots.png'
+    histplots.savefig(outpath_box)
+    qqplots_pre = _qqplots(df[df['built_age'] == 'Pre-30s'])
+    outpath_qq_pre = base_dir / VIGNETTE_DIR / 'qqplots_pre.png'
+    qqplots_pre.savefig(outpath_qq_pre)
+    qqplots_post = _qqplots(df[df['built_age'] == 'Post-30s'])
+    outpath_qq_post = base_dir / VIGNETTE_DIR / 'qqplots_post.png'
+    qqplots_post.savefig(outpath_qq_post)
 
 
 def scatter_onecat(df, cat_column, title):

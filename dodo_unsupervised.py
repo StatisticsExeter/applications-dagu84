@@ -1,8 +1,7 @@
 from pathlib import Path
-from doit.tools import config_changed
-from course.utils import load_pg_data
 from course.unsupervised_classification.eda import plot_scatter
-from course.unsupervised_classification.tree import hierarchical_groups, hcluster_analysis
+from course.unsupervised_classification.tree import (hierarchical_groups,
+                                                     hcluster_analysis)
 from course.unsupervised_classification.kmeans import kmeans
 
 

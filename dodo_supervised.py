@@ -3,7 +3,8 @@ from doit.tools import config_changed
 from course.utils import load_pg_data
 from course.supervised_classification.classify import fit_qda, fit_lda, fit_random_forest
 from course.supervised_classification.predict import pred_lda, pred_qda, pred_random_forest
-from course.supervised_classification.metrics import metric_report_lda, metric_report_qda, confusion_matrix_rf
+from course.supervised_classification.metrics import (
+    metric_report_lda, metric_report_qda, confusion_matrix_rf)
 from course.supervised_classification.split_test_train import test_and_train
 from course.supervised_classification.eda import plot_scatter, get_summary_stats
 from course.supervised_classification.roc_curve import plot_roc_curve, pca_check
@@ -89,7 +90,7 @@ def task_fit_qda():
     }
 
 
-def task_fit_random_forest(): # my code
+def task_fit_random_forest():
     return {
       'actions': [fit_random_forest],
       'file_dep': ['data_cache/energy_X_train_raw.csv', 'data_cache/energy_y_train_raw.csv',
@@ -118,10 +119,11 @@ def task_predict_qda():
     }
 
 
-def task_predict_rf(): # my code
+def task_predict_rf():
     return {
       'actions': [pred_random_forest],
-      'file_dep': ['data_cache/models/random_forest_model.joblib', 'data_cache/energy_X_test_raw.csv',
+      'file_dep': ['data_cache/models/random_forest_model.joblib',
+                   'data_cache/energy_X_test_raw.csv',
                    'course/supervised_classification/predict.py'],
       'targets': ['data_cache/models/rf_y_pred.csv',
                   'data_cache/models/rf_y_pred_prob.csv',]

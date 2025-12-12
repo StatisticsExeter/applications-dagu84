@@ -79,7 +79,7 @@ Instructions: You can use this document to record when, how and why you used Gen
 | **Date** | **AI tool used** | **Purpose** | **Prompt** | **Hyperlink to output (where possible)** | **Section of work used for** |
 |----|----|----|----|----|----|
 | E.g. 15/07/2025 | MS Copilot | To help create an organised essay structure | ‘Generate ideas for structuring an essay on...’ | \[insert link\] | introduction |
-|  |  |  |  |  |  |
+| 12/12/2025 |  Chat GPT|  Assisted with solving Lint Errors|  code errors and code snipped|  no link avaialbe (desktop)|  code base|
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |

@@ -189,7 +189,7 @@ Instructions: You can use this document to record when, how and why you used Gen
 |------------|------------|------------|------------|------------|------------|
 | E.g. 15/07/2025 | MS Copilot | To help create an organised essay structure | ‘Generate ideas for structuring an essay on...’ | \[insert link\] | introduction |
 |10/12/2025 | Chat GPT |To help understand why my new code didn't split the data correctly in my preprocessing function | typed in my function to help me understand what was wrong|no link available (used desktop)  | code base  |
-|  |  |  |  |  |  |
+| 12/12/2025 |  Chat GPT|  Assisted with solving Lint Errors|  code errors and code snipped|  no link avaialbe (desktop)|  code base|
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |

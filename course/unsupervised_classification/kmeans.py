@@ -25,8 +25,8 @@ def kmeans(k):
     scaler = StandardScaler()
     df_scaled = scaler.fit_transform(df)
     outpath_elbow = base_dir / VIGNETTE_DIR / 'kelbow'
-    elbow_vis = elbow_plot(df_scaled) # my code
-    elbow_vis.savefig(outpath_elbow.with_suffix(".png")) # my code
+    elbow_vis = elbow_plot(df_scaled)
+    elbow_vis.savefig(outpath_elbow.with_suffix(".png"))
     kmeans = _kmeans(df_scaled, 5)
     clusters = kmeans.labels_
     scaled_centers = kmeans.cluster_centers_
@@ -40,11 +40,10 @@ def kmeans(k):
     outpath = base_dir / VIGNETTE_DIR / 'kscatter.html'
     fig = _scatter_clusters(df_plot)
     fig.write_html(outpath)
-    df['cluster'] = clusters.astype(str) # my code
-    outpath_2 = base_dir / VIGNETTE_DIR / 'boxplots' # my code
-    boxplot_fig = _boxplot(df) # my code
-    boxplot_fig.savefig(outpath_2.with_suffix(".png")) # my code
-
+    df['cluster'] = clusters.astype(str)
+    outpath_2 = base_dir / VIGNETTE_DIR / 'boxplots'
+    boxplot_fig = _boxplot(df)
+    boxplot_fig.savefig(outpath_2.with_suffix(".png"))
 
 
 def _plot_centroids(scaled_centers, scaler, colnames, k):    # Melt for grouped bar plot

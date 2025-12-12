@@ -133,6 +133,7 @@ Instructions: You can use this document to record when, how and why you used Gen
 |----------------|------------------|--------------------------------------------|--------------------------------------------|------------------------------------------|-------------------------------|
 | E.g. 15/07/2025| MS Copilot       | To help create an organised essay structure| ‘Generate ideas for structuring an essay on...’ | [insert link]                          | introduction                  |
 10/12/2024, CHATGPT, Subplots for my boxplots, How do I create a 3x4 subplot with boxplots from seaborn library, no link (used desktop app), Unsupervised extra EDA 
+| 12/12/2025 |  Chat GPT|  Assisted with solving Lint Errors|  code errors and code snipped|  no link avaialbe (desktop)|  code base|
 |                |                  |                                            |                                            |                                          |                               |
 |                |                  |                                            |                                            |                                          |                               |
 |                |                  |                                            |                                            |                                          |                               |
